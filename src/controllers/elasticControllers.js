@@ -1,10 +1,10 @@
 require("dotenv").config();
 const { Client } = require("@elastic/elasticsearch");
 
-const { ELASTICSEARCH_HOST, ELASTICSEARCH_PORT, END_POINT } = process.env;
+const {  ELASTICSEARCH_PORT, END_POINT } = process.env;
 
 const client = new Client({
-  node: `http://localhost:9200`,
+  node: ELASTICSEARCH_PORT,
 });
 
 const addDocuments = async (req, res, next) => {
@@ -127,23 +127,23 @@ const searchDocuments = async (req, res, next) => {
       const hits = response.body.hits;
 
       if (hits.total.value > 0) {
-        // Si hay resultados, enviar una respuesta exitosa con los resultados
+        // If there are results, send a successful response with the results.
         res.json({
           success: true,
-          message: "Búsqueda exitosa",
+          message: "Success search",
           results: hits.hits,
         });
       } else {
-        // Si no hay resultados, enviar un mensaje de éxito sin resultados
+        // If there are no results, send a success message with no results.
         res.json({ success: true, message: "Productos encontrados", response });
       }
     } else {
-      // Si no hay propiedad "hits" en la respuesta, enviar un mensaje de éxito sin resultados
+      // If there is no 'hits' property in the response, send a success message with no results.
       res.json({ success: true, message: "Productos encontrados", response });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Error en la búsqueda" });
+    res.status(500).json({ error: "Error search" });
   }
 };
 module.exports = { getDocument, addDocuments, updateResource, searchDocuments };

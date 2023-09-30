@@ -4,7 +4,7 @@ const { Client } = require("@elastic/elasticsearch");
 const {  ELASTICSEARCH_PORT, END_POINT } = process.env;
 
 const client = new Client({
-  node: 'http://localhost:9200',
+  node: ELASTICSEARCH_PORT,
 });
 
 const addDocuments = async (req, res, next) => {

@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { Client } = require("@elastic/elasticsearch");
 
-const {  ELASTICSEARCH_PORT, END_POINT, API_KEY } = process.env;
+const {   END_POINT, API_KEY } = process.env;
 
 const client = new Client({
   node: END_POINT,

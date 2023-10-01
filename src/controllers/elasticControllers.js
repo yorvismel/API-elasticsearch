@@ -9,6 +9,8 @@ const client = new Client({
     apiKey: API_KEY
   },
 });
+console.log(END_POINT)
+console.log(API_KEY)
 
 const addDocuments = async (req, res, next) => {
   try {

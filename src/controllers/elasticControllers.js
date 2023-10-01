@@ -1,10 +1,13 @@
 require("dotenv").config();
 const { Client } = require("@elastic/elasticsearch");
 
-const {  ELASTICSEARCH_PORT, END_POINT } = process.env;
+const {  ELASTICSEARCH_PORT, END_POINT, API_KEY } = process.env;
 
 const client = new Client({
-  node: ELASTICSEARCH_PORT,
+  node: END_POINT,
+  auth: {
+    apiKey: API_KEY
+  },
 });
 
 const addDocuments = async (req, res, next) => {
@@ -135,11 +138,11 @@ const searchDocuments = async (req, res, next) => {
         });
       } else {
         // If there are no results, send a success message with no results.
-        res.json({ success: true, message: "Productos encontrados", response });
+        res.json({ success: true, message: "Productos encontrados 1", response });
       }
     } else {
       // If there is no 'hits' property in the response, send a success message with no results.
-      res.json({ success: true, message: "Productos encontrados", response });
+      res.json({ success: true, message: "Productos encontrados 2", response });
     }
   } catch (error) {
     console.error(error);

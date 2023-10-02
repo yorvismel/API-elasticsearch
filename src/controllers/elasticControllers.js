@@ -1,15 +1,4 @@
-require("dotenv").config();
-const { Client } = require("@elastic/elasticsearch");
-
-const {   END_POINT,  API_KEY_KIBANA } = process.env;
-
-const client = new Client({
-  node: END_POINT,
-  auth: {
-    apiKey: API_KEY_KIBANA
-  },
-});
-
+const { client } = require("../elasticsearchConfig");
 
 const addDocuments = async (req, res, next) => {
   try {
@@ -22,11 +11,12 @@ const addDocuments = async (req, res, next) => {
     ]);
 
     const { body: bulkResponse } = await client.bulk({ refresh: true, body });
-    console.log("Bulk Response:", body);
+
     if (bulkResponse && bulkResponse.errors) {
       const erroredDocuments = [];
       bulkResponse.items.forEach((action, i) => {
         const operation = Object.keys(action)[0];
+
         if (action[operation].error) {
           erroredDocuments.push({
             index: i,
@@ -35,7 +25,6 @@ const addDocuments = async (req, res, next) => {
         }
       });
 
-      console.log("Errored Documents:", erroredDocuments);
       res.status(400).json({
         message: "Some documents failed to be indexed.",
         errors: erroredDocuments,
@@ -61,7 +50,7 @@ const updateResource = async (req, res, next) => {
       refresh: true,
     });
 
-    console.log("Document Index Response:", body);
+    
 
     res.status(201).json({ message: "Document updated successfully", body });
   } catch (error) {
@@ -93,9 +82,7 @@ const getDocument = async (req, res, next) => {
 const searchDocuments = async (req, res, next) => {
   const { indexName } = req.params;
   const { q, filters } = req.query;
-  console.log("indexName", indexName);
-  console.log("q", q);
-  console.log("filters", filters);
+
   try {
     const filtersArray = filters.split(",").map((filter) => {
       const [field, value] = filter.split(":");
@@ -106,10 +93,10 @@ const searchDocuments = async (req, res, next) => {
         },
       };
     });
-    console.log("filtersArray:", filtersArray);
+    
     const query = {
       bool: {
-        must: [
+         must: [
           {
             query_string: {
               query: q,
@@ -120,13 +107,12 @@ const searchDocuments = async (req, res, next) => {
         ],
       },
     };
-    console.log("const query:", query);
-    console.log("ultimo filtersArray:", filtersArray);
+
     const response = await client.search({
       index: indexName,
       body: { query },
     });
-    console.log("response", response);
+
     if (response.body && response.body.hits) {
       const hits = response.body.hits;
 
@@ -139,11 +125,11 @@ const searchDocuments = async (req, res, next) => {
         });
       } else {
         // If there are no results, send a success message with no results.
-        res.json({ success: true, message: "Productos encontrados 1", response });
+        res.json({ success: true, message: "Success search", response });
       }
     } else {
       // If there is no 'hits' property in the response, send a success message with no results.
-      res.json({ success: true, message: "Productos encontrados 2", response });
+      res.json({ success: true, message: "Success search", response });
     }
   } catch (error) {
     console.error(error);

@@ -5,9 +5,9 @@
     "description": "🚀 This API provides access to data indexed in Elasticsearch, allowing for advanced searches and queries on data sets. It also supports indexing or adding new information. 💡",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "https://elastic-api-p0us.onrender.com/",
   "basePath": "/",
-  "schemes": ["http"],
+  "schemes": ["https"],
   "paths": {
     "/{indexName}/documents": {
       "post": {

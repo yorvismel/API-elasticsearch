@@ -1,0 +1,156 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API Elasticsearch",
+    "description": "🚀 This API provides access to data indexed in Elasticsearch, allowing for advanced searches and queries on data sets. It also supports indexing or adding new information. 💡",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "paths": {
+    "/{indexName}/documents": {
+      "post": {
+        "description": "Endpoint for creating documents in the specified Elasticsearch index.",
+        "parameters": [
+          {
+            "name": "indexName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "documents": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/{indexName}/documents/{id}": {
+      "put": {
+        "description": "Endpoint for updating a document in the specified Elasticsearch index by ID.",
+        "parameters": [
+          {
+            "name": "indexName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "indexName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/{indexName}/search": {
+      "get": {
+        "description": "Endpoint for searching and querying data in the specified Elasticsearch index.",
+        "parameters": [
+          {
+            "name": "indexName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string",
+            "description": "The search query string."
+          },
+          {
+            "name": "filters",
+            "in": "query",
+            "type": "string",
+            "description": "Optional filters to narrow down the search results."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - The search request was successful."
+          },
+          "400": {
+            "description": "Bad Request - The request is invalid."
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred on the server."
+          }
+        }
+      }
+    },
+    "/{indexName}/all_documents": {
+      "get": {
+        "description": "Retrieve all documents within the specified Elasticsearch index.",
+        "parameters": [
+          {
+            "name": "indexName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted - The request has been accepted for processing."
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred on the server."
+          }
+        }
+      }
+    }
+  }
+  }
+    

@@ -1,4 +1,6 @@
+const express = require("express");
 const { client } = require("../elasticsearchConfig");
+const router = express.Router();
 
 const addDocuments = async (req, res, next) => {
   try {
